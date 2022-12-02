@@ -1,0 +1,23 @@
+name: Beta release
+
+on:
+  workflow_dispatch
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: |
+          git config --global user.name "gmbronco"
+          git config --global user.email "gmbronco@users.noreply.github.com"
+          yarn version --prerelease
+          git push
+      # - run: yarn publish --non-interactive --tag beta
+
+env:
+  CI: true
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
