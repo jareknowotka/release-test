@@ -24,6 +24,8 @@ jobs:
           git config user.signingkey A33ABD316E6629F6
           git config gpg.program /usr/bin/gpg
           yarn version --prerelease
+          git reset HEAD~1
+          git commit -S -m 'Version bump'
           git push
 
 # git reset HEAD~1
