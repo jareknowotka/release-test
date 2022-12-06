@@ -16,6 +16,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
           BRANCH: main
         run: |
+          jq --version
           echo -n "$SIGNING_KEY" | base64 --decode | gpg --import
           git config --global user.name "gmbronco"
           git config --global user.email "gmbronco@users.noreply.github.com"
@@ -23,7 +24,9 @@ jobs:
           git config gpg.program /usr/bin/gpg
           yarn version --prerelease
           git reset HEAD~1
-          git commit -S -am 'Version bump'
+          export NEW_VERSION=$(cat package.json | grep version | cut -d: -f2 | tr -d '", ')
+          git commit -S -am "Version bump v$NEW_VERSION"
+          git tag -a "${NEW_VERSION}"
           git push
 
 # git reset HEAD~1
