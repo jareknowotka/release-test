@@ -19,6 +19,7 @@ jobs:
           git config --global user.email "gmbronco@users.noreply.github.com"
           yarn version --prerelease
           git reset HEAD~1
+          gpg --list-keys
           export MESSAGE="Version bump"
           export SHA=$(git rev-parse main:package.json)
           export CONTENT=$(base64 -i package.json)
