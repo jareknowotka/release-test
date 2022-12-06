@@ -23,7 +23,7 @@ jobs:
           export NEW_VERSION=$(jq -r '.version' package.json)
           git commit -S -am "Version bump v$NEW_VERSION"
           git tag "v${NEW_VERSION}"
-          yarn publish --non-interactive --tag beta
+          yarn publish --non-interactive --tag beta --access public
           git push
 
 env:
