@@ -12,24 +12,28 @@ jobs:
         with:
           node-version: 18
       - env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
           BRANCH: main
         run: |
+          echo -n "$SIGNING_KEY" | base64 --decode | gpg --import
+          gpg --list-keys
           git config --global user.name "gmbronco"
           git config --global user.email "gmbronco@users.noreply.github.com"
           yarn version --prerelease
-          git reset HEAD~1
-          gpg --list-keys
-          echo "Test"
-          export MESSAGE="Version bump"
-          export SHA=$(git rev-parse main:package.json)
-          export CONTENT=$(base64 -i package.json)
-          gh api --method PUT /repos/jareknowotka/release-test/contents/package.json \
-            --field message="$MESSAGE" \
-            --field content="$CONTENT" \
-            --field encoding="base64" \
-            --field branch="$BRANCH" \
-            --field sha="$SHA"
+          git push
+
+# git reset HEAD~1
+# echo "Test"
+# export MESSAGE="Version bump"
+# export SHA=$(git rev-parse main:package.json)
+# export CONTENT=$(base64 -i package.json)
+# gh api --method PUT /repos/jareknowotka/release-test/contents/package.json \
+#   --field message="$MESSAGE" \
+#   --field content="$CONTENT" \
+#   --field encoding="base64" \
+#   --field branch="$BRANCH" \
+#   --field sha="$SHA"
 
       # - run: yarn publish --non-interactive --tag beta
 
