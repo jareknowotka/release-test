@@ -17,15 +17,13 @@ jobs:
           BRANCH: main
         run: |
           echo -n "$SIGNING_KEY" | base64 --decode | gpg --import
-          which gpg
-          gpg --list-keys
           git config --global user.name "gmbronco"
           git config --global user.email "gmbronco@users.noreply.github.com"
           git config user.signingkey A33ABD316E6629F6
           git config gpg.program /usr/bin/gpg
           yarn version --prerelease
           git reset HEAD~1
-          git commit -S -m 'Version bump'
+          git commit -S -am 'Version bump'
           git push
 
 # git reset HEAD~1
