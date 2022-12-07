@@ -16,7 +16,6 @@ jobs:
       - env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         run: |
-          cat .git/config
           echo -n "$SIGNING_KEY" | base64 --decode | gpg --import
           git config --global user.name "gmbronco"
           git config --global user.email "gmbronco@users.noreply.github.com"
@@ -32,4 +31,3 @@ jobs:
 env:
   CI: true
   NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
