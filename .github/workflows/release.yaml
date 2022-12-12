@@ -17,8 +17,8 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         run: |
           echo -n "$SIGNING_KEY" | base64 --decode | gpg --import
-          git config --global user.name "gmbronco"
-          git config --global user.email "gmbronco@users.noreply.github.com"
+          git config --global user.name "anyusername"
+          git config --global user.email "anyusername@users.noreply.github.com"
           git config user.signingkey A33ABD316E6629F6
           git config gpg.program /usr/bin/gpg
           yarn version --prerelease --no-git-tag-version
